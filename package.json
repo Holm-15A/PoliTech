@@ -1,0 +1,14 @@
+﻿{
+  "name": "politech",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "docker-compose up",
+    "build": "docker-compose build",
+    "db:migrate": "docker-compose exec backend npx prisma migrate dev",
+    "db:studio": "docker-compose exec backend npx prisma studio"
+  }
+}
