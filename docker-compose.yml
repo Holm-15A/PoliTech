@@ -10,6 +10,10 @@ services:
       - /app/node_modules
     environment:
       - VITE_API_URL=http://localhost:3000
+      - VITE_APP_NAME=PoliTech
+    depends_on:
+      backend:
+        condition: service_healthy
 
   backend:
     build: 
@@ -21,8 +25,32 @@ services:
       - /app/node_modules
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/politech
+      - AUTH_SECRET=your-secret-key
+      - FRONTEND_URL=http://localhost:5173
+      - NODE_ENV=development
+      # OAuth設定
+      - FACEBOOK_CLIENT_ID=your-facebook-client-id
+      - FACEBOOK_CLIENT_SECRET=your-facebook-client-secret
+      - TWITTER_CLIENT_ID=your-twitter-api-key
+      - TWITTER_CLIENT_SECRET=your-twitter-api-secret
+      # その他のOAuth設定
+      - GOOGLE_CLIENT_ID=
+      - GOOGLE_CLIENT_SECRET=
+      - LINE_CLIENT_ID=
+      - LINE_CLIENT_SECRET=
+      - APPLE_CLIENT_ID=
+      - APPLE_CLIENT_SECRET=
+      - APPLE_TEAM_ID=
+      - APPLE_KEY_ID=
+      - APPLE_PRIVATE_KEY_LOCATION=
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   db:
     image: postgres:15
@@ -34,6 +62,11 @@ services:
       - POSTGRES_DB=politech
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
 volumes:
   postgres_data:

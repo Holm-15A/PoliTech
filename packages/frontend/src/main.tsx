@@ -1,10 +1,37 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
+import { ChakraProvider, extendTheme } from '@chakra-ui/react';
+import App from './App.tsx';
+import { store } from './store';
+import './index.css';
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+const theme = extendTheme({
+  colors: {
+    facebook: {
+      50: '#E8F4FF',
+      100: '#C1E0FF',
+      200: '#9ACCFF',
+      300: '#72B8FF',
+      400: '#4BA4FF',
+      500: '#3b5998', // Facebook blue
+      600: '#344e86', // Darker Facebook blue
+      700: '#2d4373',
+      800: '#253860',
+      900: '#1d2c4d',
+    },
+  },
+});
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <Provider store={store}>
+      <BrowserRouter>
+        <ChakraProvider theme={theme}>
+          <App />
+        </ChakraProvider>
+      </BrowserRouter>
+    </Provider>
+  </React.StrictMode>,
+);
