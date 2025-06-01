@@ -8,36 +8,36 @@ import { setUser, setError, logout, setLoading } from '../store/authSlice';
 axios.defaults.withCredentials = true;
 
 export const useAuth = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { user, isLoading, error } = useSelector((state: RootState) => state.auth);
+const dispatch = useDispatch();
+const navigate = useNavigate();
+const { user, isLoading, error } = useSelector((state: RootState) => state.auth);
 
-  const handleLogout = async () => {
-    try {
-      await axios.post(`${import.meta.env.VITE_API_URL}/auth/logout`);
-      dispatch(logout());
-      navigate('/login');
-    } catch (error) {
-      console.error('Logout failed:', error);
-    }
-  };
+const handleLogout = async () => {
+	try {
+	await axios.post(`${import.meta.env.VITE_API_URL}/auth/logout`);
+	dispatch(logout());
+	navigate('/login');
+	} catch (error) {
+	console.error('Logout failed:', error);
+	}
+};
 
-  const checkAuthStatus = async () => {
-    try {
-      dispatch(setLoading(true));
-      const response = await axios.get(`${import.meta.env.VITE_API_URL}/auth/me`);
-      dispatch(setUser(response.data));
-    } catch (error) {
-      dispatch(setError('認証に失敗しました'));
-      navigate('/login');
-    }
-  };
+const checkAuthStatus = async () => {
+	try {
+	dispatch(setLoading(true));
+	const response = await axios.get(`${import.meta.env.VITE_API_URL}/auth/me`);
+	dispatch(setUser(response.data));
+	} catch (error) {
+	dispatch(setError('認証に失敗しました'));
+	navigate('/login');
+	}
+};
 
-  return {
-    user,
-    isLoading,
-    error,
-    handleLogout,
-    checkAuthStatus,
-  };
+return {
+	user,
+	isLoading,
+	error,
+	handleLogout,
+	checkAuthStatus,
+};
 };

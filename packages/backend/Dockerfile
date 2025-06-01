@@ -10,7 +10,9 @@ WORKDIR /app
 COPY package*.json ./
 COPY prisma ./prisma/
 
-RUN npm install
+# npmパッケージのインストールとaxiosの追加
+RUN npm install && \
+    npm install axios@latest
 
 COPY . .
 

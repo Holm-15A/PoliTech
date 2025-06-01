@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="192" height="192" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 建物のような形状を表現 -->
+  <rect x="8" y="12" width="16" height="16" fill="#2563EB"/>
+  <!-- 上部の屋根部分 -->
+  <path d="M16 4L24 12H8L16 4Z" fill="#2563EB"/>
+  <!-- デジタルを表現する要素 -->
+  <circle cx="16" cy="20" r="4" fill="white"/>
+  <rect x="14" y="18" width="4" height="4" fill="white"/>
+</svg>

@@ -2,7 +2,6 @@
   "name": "frontend",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -30,6 +29,10 @@
     "@eslint/js": "^9.22.0",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
+    "@unocss/preset-attributify": "^66.1.3",
+    "@unocss/preset-icons": "^66.1.3",
+    "@unocss/preset-uno": "^66.1.3",
+    "@unocss/reset": "^66.1.3",
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.22.0",
     "eslint-plugin-react-hooks": "^5.2.0",
@@ -37,6 +40,7 @@
     "globals": "^16.0.0",
     "typescript": "~5.3.3",
     "typescript-eslint": "^8.26.1",
+    "unocss": "^66.1.3",
     "vite": "^5.1.4"
   }
 }

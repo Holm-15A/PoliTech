@@ -107,6 +107,44 @@ npm run dev
 - バックエンドAPI: http://localhost:3000
 - Prisma Studio: http://localhost:5555 (データベース管理UI)
 
+### よく使うコマンド
+
+- **開発環境の起動**:
+  ```bash
+  npm run dev
+  ```
+  Docker Composeを使用して、フロントエンド、バックエンド、データベースを同時に起動します。
+
+- **データベースのマイグレーション**:
+  ```bash
+  npm run db:migrate
+  ```
+  Prisma Migrateを実行して、データベーススキーマを最新の状態に保ちます。
+
+- **Prisma Studioの起動**:
+  ```bash
+  npm run db:studio
+  ```
+  Prisma Studioを起動して、データベースの内容をGUIで確認・編集します。
+
+- **Dockerイメージのビルド**:
+  ```bash
+  npm run build
+  ```
+  Dockerイメージをビルドします。
+
+- **Dockerコンテナの停止**:
+  ```bash
+  docker compose down
+  ```
+  Dockerコンテナを停止します。
+
+- **Dockerイメージ再ビルド & 起動**:
+	```bash
+	docker compose down && docker compose build --no-cache && docker compose up -d
+	```
+	Dockerイメージをキャッシュなしでビルドしてから起動します。
+
 ### 利用可能なスクリプト
 
 プロジェクトルートで実行可能なスクリプト:

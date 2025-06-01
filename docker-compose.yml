@@ -34,15 +34,15 @@ services:
       - TWITTER_CLIENT_ID=your-twitter-api-key
       - TWITTER_CLIENT_SECRET=your-twitter-api-secret
       # その他のOAuth設定
-      - GOOGLE_CLIENT_ID=
-      - GOOGLE_CLIENT_SECRET=
-      - LINE_CLIENT_ID=
-      - LINE_CLIENT_SECRET=
-      - APPLE_CLIENT_ID=
-      - APPLE_CLIENT_SECRET=
-      - APPLE_TEAM_ID=
-      - APPLE_KEY_ID=
-      - APPLE_PRIVATE_KEY_LOCATION=
+      - GOOGLE_CLIENT_ID=your-google-client-id
+      - GOOGLE_CLIENT_SECRET=your-google-client-secret
+      - LINE_CLIENT_ID=your-line-client-id
+      - LINE_CLIENT_SECRET=your-line-client-secret
+      - APPLE_CLIENT_ID=your-apple-client-id
+      - APPLE_CLIENT_SECRET=your-apple-client-secret
+      - APPLE_TEAM_ID=your-apple-team-id
+      - APPLE_KEY_ID=your-apple-key-id
+      - APPLE_PRIVATE_KEY_LOCATION=/app/AuthKey_XXXXXXXXXX.p8
     depends_on:
       db:
         condition: service_healthy

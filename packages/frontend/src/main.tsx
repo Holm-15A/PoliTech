@@ -1,11 +1,13 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
-import { ChakraProvider, extendTheme } from '@chakra-ui/react';
-import App from './App.tsx';
-import { store } from './store';
-import './index.css';
+// スタイルのインポートを最初に
+import '@unocss/reset/tailwind.css'
+import 'virtual:uno.css'
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import { Provider } from 'react-redux'
+import { ChakraProvider, extendTheme } from '@chakra-ui/react'
+import App from './App.tsx'
+import { store } from './store'
+import './index.css'
 
 const theme = extendTheme({
   colors: {
@@ -22,16 +24,14 @@ const theme = extendTheme({
       900: '#1d2c4d',
     },
   },
-});
+})
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
-        <ChakraProvider theme={theme}>
-          <App />
-        </ChakraProvider>
-      </BrowserRouter>
+      <ChakraProvider theme={theme}>
+        <App />
+      </ChakraProvider>
     </Provider>
   </React.StrictMode>,
-);
+)
