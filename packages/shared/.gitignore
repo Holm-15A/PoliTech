@@ -1,0 +1,3 @@
+# Ignore generated JS in src when accidental transpile happens
+src/*.js
+src/*.js.map

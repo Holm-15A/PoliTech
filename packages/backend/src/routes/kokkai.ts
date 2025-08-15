@@ -1,6 +1,7 @@
 ﻿import { Router, Request, Response, NextFunction } from 'express';
+import type { RequestHandler } from 'express';
 import axios from 'axios';
-import type { SearchParams, KokkaiResponse, RecordData } from '../types/api';
+import type { SearchParams, KokkaiResponse, RecordData } from 'shared';
 
 const router = Router();
 const KOKKAI_API_BASE_URL = 'https://kokkai.ndl.go.jp/api/speech';
@@ -9,10 +10,11 @@ interface ErrorResponse {
   error: string;
 }
 
-const searchHandler = async (req: Request<{}, any, any, SearchParams>, res: Response, next: NextFunction) => {
+const searchHandler: RequestHandler = async (req, res, next) => {
   try {
-    const maximumRecordsNum = Number(req.query.maximumRecords) || 20;
-    const startRecordNum = Number(req.query.startRecord) || 1;
+  const q = req.query as unknown as SearchParams;
+  const maximumRecordsNum = Number(q.maximumRecords) || 20;
+  const startRecordNum = Number(q.startRecord) || 1;
 
     // 数値パラメータの検証
     if (maximumRecordsNum < 1 || maximumRecordsNum > 100) {
@@ -33,26 +35,26 @@ const searchHandler = async (req: Request<{}, any, any, SearchParams>, res: Resp
     // 検索条件の追加（空文字列は除外）
     let hasSearchCondition = false;
 
-    if (req.query.any && req.query.any.toString().trim() !== '') {
-      params.any = req.query.any.toString().trim();
+    if (q.any && q.any.toString().trim() !== '') {
+      params.any = q.any.toString().trim();
       hasSearchCondition = true;
     }
 
-    if (req.query.speaker && req.query.speaker.toString().trim() !== '') {
-      params.speaker = req.query.speaker.toString().trim();
+    if (q.speaker && q.speaker.toString().trim() !== '') {
+      params.speaker = q.speaker.toString().trim();
       hasSearchCondition = true;
     }
 
-    if (req.query.nameOfMeeting && req.query.nameOfMeeting.toString().trim() !== '') {
-      params.nameOfMeeting = req.query.nameOfMeeting.toString().trim();
+    if (q.nameOfMeeting && q.nameOfMeeting.toString().trim() !== '') {
+      params.nameOfMeeting = q.nameOfMeeting.toString().trim();
       hasSearchCondition = true;
     }
 
     // 日付パラメータの検証と追加
     const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
 
-    if (req.query.from && req.query.from.toString().trim() !== '') {
-      const from = req.query.from.toString().trim();
+    if (q.from && q.from.toString().trim() !== '') {
+      const from = q.from.toString().trim();
       if (!dateRegex.test(from)) {
         return res.status(400).json({ error: 'fromはYYYY-MM-DD形式で指定してください' });
       }
@@ -65,8 +67,8 @@ const searchHandler = async (req: Request<{}, any, any, SearchParams>, res: Resp
       hasSearchCondition = true;
     }
 
-    if (req.query.until && req.query.until.toString().trim() !== '') {
-      const until = req.query.until.toString().trim();
+    if (q.until && q.until.toString().trim() !== '') {
+      const until = q.until.toString().trim();
       if (!dateRegex.test(until)) {
         return res.status(400).json({ error: 'untilはYYYY-MM-DD形式で指定してください' });
       }
@@ -80,7 +82,7 @@ const searchHandler = async (req: Request<{}, any, any, SearchParams>, res: Resp
     }
 
     // 検索条件が一つも指定されていない場合はエラー
-    if (!hasSearchCondition) {
+  if (!hasSearchCondition) {
       return res.status(400).json({ error: '検索条件（キーワード、発言者、会議名、期間）を少なくとも1つ指定してください' });
     }
 

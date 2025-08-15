@@ -12,6 +12,7 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
+		"shared": "1.0.0",
 		"@auth/core": "^0.39.0",
 		"@auth/prisma-adapter": "^2.9.0",
 		"@prisma/client": "^6.6.0",

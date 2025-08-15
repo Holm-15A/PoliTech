@@ -19,8 +19,9 @@ const KOKKAI_API_BASE_URL = 'https://kokkai.ndl.go.jp/api/speech';
 const searchHandler = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c;
     try {
-        const maximumRecordsNum = Number(req.query.maximumRecords) || 20;
-        const startRecordNum = Number(req.query.startRecord) || 1;
+        const q = req.query;
+        const maximumRecordsNum = Number(q.maximumRecords) || 20;
+        const startRecordNum = Number(q.startRecord) || 1;
         // 数値パラメータの検証
         if (maximumRecordsNum < 1 || maximumRecordsNum > 100) {
             return res.status(400).json({ error: 'maximumRecordsは1から100の範囲で指定してください' });
@@ -36,22 +37,22 @@ const searchHandler = (req, res, next) => __awaiter(void 0, void 0, void 0, func
         };
         // 検索条件の追加（空文字列は除外）
         let hasSearchCondition = false;
-        if (req.query.any && req.query.any.toString().trim() !== '') {
-            params.any = req.query.any.toString().trim();
+        if (q.any && q.any.toString().trim() !== '') {
+            params.any = q.any.toString().trim();
             hasSearchCondition = true;
         }
-        if (req.query.speaker && req.query.speaker.toString().trim() !== '') {
-            params.speaker = req.query.speaker.toString().trim();
+        if (q.speaker && q.speaker.toString().trim() !== '') {
+            params.speaker = q.speaker.toString().trim();
             hasSearchCondition = true;
         }
-        if (req.query.nameOfMeeting && req.query.nameOfMeeting.toString().trim() !== '') {
-            params.nameOfMeeting = req.query.nameOfMeeting.toString().trim();
+        if (q.nameOfMeeting && q.nameOfMeeting.toString().trim() !== '') {
+            params.nameOfMeeting = q.nameOfMeeting.toString().trim();
             hasSearchCondition = true;
         }
         // 日付パラメータの検証と追加
         const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
-        if (req.query.from && req.query.from.toString().trim() !== '') {
-            const from = req.query.from.toString().trim();
+        if (q.from && q.from.toString().trim() !== '') {
+            const from = q.from.toString().trim();
             if (!dateRegex.test(from)) {
                 return res.status(400).json({ error: 'fromはYYYY-MM-DD形式で指定してください' });
             }
@@ -63,8 +64,8 @@ const searchHandler = (req, res, next) => __awaiter(void 0, void 0, void 0, func
             params.from = from;
             hasSearchCondition = true;
         }
-        if (req.query.until && req.query.until.toString().trim() !== '') {
-            const until = req.query.until.toString().trim();
+        if (q.until && q.until.toString().trim() !== '') {
+            const until = q.until.toString().trim();
             if (!dateRegex.test(until)) {
                 return res.status(400).json({ error: 'untilはYYYY-MM-DD形式で指定してください' });
             }

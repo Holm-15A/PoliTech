@@ -22,7 +22,7 @@ import { SearchParams } from '../utils/kokkaiApi';
 
 export const KokkaiSearchPage = () => {
   const { register, handleSubmit } = useForm<SearchParams>();
-  const { loading, error, data, currentPage, search, nextPage, previousPage, hasMore } = useKokkaiSearch();
+  const { loading, error, data, currentPage, search, nextPage, previousPage } = useKokkaiSearch();
 
   const onSubmit = (formData: SearchParams) => {
     console.log('検索条件:', formData);
@@ -88,7 +88,7 @@ export const KokkaiSearchPage = () => {
                 </Text>
                 
                 <VStack spacing={4} align="stretch">
-                  {data.speechRecord?.map((record) => (
+                  {data.speechRecord?.map((record: any) => (
                     <Card key={record.speechID}>
                       <CardBody>
                         <VStack align="stretch" spacing={3}>

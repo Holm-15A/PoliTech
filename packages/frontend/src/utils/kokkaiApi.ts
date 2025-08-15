@@ -1,46 +1,6 @@
 ﻿import axios from 'axios';
-
-export interface SpeechRecord {
-  speechID: string;
-  issueID: string;
-  imageKind: string;
-  searchObject: string;
-  session: string;
-  nameOfHouse: string;
-  nameOfMeeting: string;
-  issue: string;
-  date: string;
-  closing: string;
-  speechOrder: number;
-  speaker: string;
-  speakerYomi: string;
-  speakerGroup: string;
-  speakerPosition: string;
-  speakerRole: string;
-  speech: string;
-  startPage: number;
-  speechURL: string;
-  meetingURL: string;
-  pdfURL: string;
-}
-
-export interface KokkaiResponse {
-  numberOfRecords: number;
-  numberOfReturn: number;
-  startRecord: number;
-  nextRecordPosition: number;
-  speechRecord: SpeechRecord[];
-}
-
-export interface SearchParams {
-  maximumRecords?: number;
-  startRecord?: number;
-  any?: string;
-  speaker?: string;
-  nameOfMeeting?: string;
-  from?: string;
-  until?: string;
-}
+import type { SearchParams, KokkaiResponse } from 'shared';
+export type { SearchParams, KokkaiResponse } from 'shared';
 
 export interface ErrorResponse {
   error: string;
@@ -59,7 +19,7 @@ export const searchSpeeches = async (params: SearchParams): Promise<KokkaiRespon
   try {
     // 空文字列のパラメータを削除
     const cleanParams = Object.fromEntries(
-      Object.entries(params).filter(([_, value]) => 
+      Object.entries(params).filter(([, value]) => 
         value !== undefined && value !== null && value.toString().trim() !== ''
       )
     );
