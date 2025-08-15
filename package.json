@@ -6,9 +6,13 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "docker compose up",
+    "dev": "concurrently \"npm --workspace=packages/backend run dev\" \"npm --workspace=packages/frontend run dev\"",
+    "dev:docker": "docker compose up",
     "build": "docker compose build",
     "db:migrate": "docker compose exec backend npx prisma migrate dev",
     "db:studio": "docker compose exec backend npx prisma studio"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0"
   }
 }

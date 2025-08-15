@@ -20,8 +20,8 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
 
-app.use(express.json());
-app.use(cookieParser());
+app.use(express.json() as any);
+app.use(cookieParser() as any);
 
 // セッションの設定を更新
 app.use(session({
@@ -33,11 +33,11 @@ app.use(session({
     sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
     maxAge: 1000 * 60 * 60 * 24 * 7 // 1週間
   }
-}));
+}) as any);
 
 // Passportの初期化
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.initialize() as any);
+app.use(passport.session() as any);
 configureAuth(passport);
 
 // ルートの登録

@@ -165,6 +165,6 @@ const searchHandler = async (req: Request, res: Response, next: NextFunction) =>
   }
 };
 
-router.get('/search', searchHandler);
+router.get('/search', async (req, res, next) => await searchHandler(req, res, next));
 
 export default router;
