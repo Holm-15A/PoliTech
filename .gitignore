@@ -48,3 +48,22 @@ logs/
 # System files
 .DS_Store
 Thumbs.db
+
+# Monorepo
+/packages/**/node_modules/
+/packages/**/dist/
+/packages/**/build/
+
+# Lockfiles (optional to track - keep if you want to commit the monorepo lockfile)
+# package-lock.json
+# pnpm-lock.yaml
+
+# Vite / frontend
+/.vite
+.cache
+public/build/
+packages/frontend/dist/
+
+# Ignore local IDE workspace files
+.vscode/
+.idea/
