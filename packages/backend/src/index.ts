@@ -1,4 +1,4 @@
-﻿import express from 'express';
+﻿import express, { type RequestHandler } from 'express';
 import cors from 'cors';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
@@ -20,8 +20,8 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
 
-app.use(express.json() as any);
-app.use(cookieParser() as any);
+app.use(express.json() as unknown as RequestHandler);
+app.use(cookieParser() as unknown as RequestHandler);
 
 // セッションの設定を更新
 app.use(session({
@@ -33,11 +33,11 @@ app.use(session({
     sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
     maxAge: 1000 * 60 * 60 * 24 * 7 // 1週間
   }
-}) as any);
+}) as unknown as RequestHandler);
 
 // Passportの初期化
-app.use(passport.initialize() as any);
-app.use(passport.session() as any);
+app.use(passport.initialize() as unknown as RequestHandler);
+app.use(passport.session() as unknown as RequestHandler);
 configureAuth(passport);
 
 // ルートの登録

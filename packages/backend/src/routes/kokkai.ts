@@ -1,5 +1,6 @@
-﻿import { Router } from 'express';
+﻿import { Router, Request, Response, NextFunction } from 'express';
 import axios from 'axios';
+import type { SearchParams, KokkaiResponse, RecordData } from '../types/api';
 
 const router = Router();
 const KOKKAI_API_BASE_URL = 'https://kokkai.ndl.go.jp/api/speech';
@@ -8,8 +9,7 @@ interface ErrorResponse {
   error: string;
 }
 
-// Use `any` types here to avoid runtime TS overload resolution issues in containerized ts-node
-const searchHandler = async (req: any, res: any, next: any) => {
+const searchHandler = async (req: Request<{}, any, any, SearchParams>, res: Response, next: NextFunction) => {
   try {
     const maximumRecordsNum = Number(req.query.maximumRecords) || 20;
     const startRecordNum = Number(req.query.startRecord) || 1;
@@ -85,7 +85,7 @@ const searchHandler = async (req: any, res: any, next: any) => {
     }
 
     console.log('Sending request to Kokkai API with params:', params);
-  const response = await axios.get(KOKKAI_API_BASE_URL, {
+  const response = await axios.get<KokkaiResponse>(KOKKAI_API_BASE_URL, {
       params,
       timeout: 10000
     });
