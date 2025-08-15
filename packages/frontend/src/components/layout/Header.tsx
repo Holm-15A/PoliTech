@@ -31,9 +31,6 @@ export const Header = () => {
 
         <Flex alignItems="center">
           <Stack direction="row" spacing={4}>
-            <Link as={RouterLink} to="/kokkai-search">
-              国会議事録検索
-            </Link>
             {isAuthenticated ? (
               <Button onClick={handleLogout} variant="ghost">
                 ログアウト

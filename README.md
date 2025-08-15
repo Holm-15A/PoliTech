@@ -32,22 +32,25 @@
 ## プロジェクト構成
 
 ```text
-packages/
-├── frontend/    # フロントエンドアプリケーション
-│   ├── src/
-│   │   ├── components/  # 再利用可能なコンポーネント
-│   │   ├── pages/       # ページコンポーネント
-│   │   ├── hooks/       # カスタムフック
-│   │   ├── store/       # Reduxストア
-│   │   └── utils/       # ユーティリティ関数
-│   └── ...
-└── backend/     # バックエンドAPI
-  ├── src/
-  │   ├── controllers/ # ルートハンドラー
-  │   ├── services/    # ビジネスロジック
-  │   ├── routes/     # APIルート定義
-  │   └── types/      # 型定義
-  └── prisma/         # データベーススキーマ
+.
+├── docker-compose.yml
+├── package.json
+├── README.md
+└── packages/
+  ├── backend/
+  │   ├── Dockerfile
+  │   ├── package.json
+  │   ├── tsconfig.json
+  │   └── src/             # Express + TypeScript サーバー
+  ├── frontend/
+  │   ├── Dockerfile
+  │   ├── package.json
+  │   ├── vite.config.ts
+  │   └── src/             # React + Vite + TypeScript アプリ
+  └── shared/
+    ├── package.json
+    ├── src/             # 共通型・ユーティリティ (TypeScript ソース)
+    └── dist/            # build 出力 (.d.ts)
 ```
  
 ## 必要要件
@@ -201,78 +204,3 @@ npm run dev
 - Cloud Build（CI/CD）
 
 詳細なデプロイメント手順は今後追加予定です。
-
-## 開発ガイドライン
-
-### コーディング規約
-
-- TypeScriptの厳格な型チェックを有効化
-- ESLintとPrettierの設定に従う
-- コンポーネントはFunction Componentで実装
-- 状態管理はRedux Toolkitを使用
-
-### Git運用
-
-- ブランチ戦略: GitHub Flow
-- プルリクエストベースの開発
-- コミットメッセージは日本語で、変更内容を簡潔に説明
-
-### コミットメッセージフォーマット
-
-```text
-feat: 新機能の追加
-fix: バグ修正
-docs: ドキュメントのみの変更
-style: コードの意味に影響しない変更（空白、フォーマット等）
-refactor: リファクタリング
-test: テストの追加・修正
-chore: ビルドプロセスやツールの変更
-```
-
-## トラブルシューティング
-
-よくある問題と解決方法：
-
-1. データベース接続エラー
-   - 環境変数の確認
-   - PostgreSQLコンテナの状態確認
-
-2. ビルドエラー
-   - node_modulesの削除と再インストール
-   - TypeScriptバージョンの確認
-
-3. 開発サーバー起動エラー
-   - ポート重複の確認
-   - プロセスの強制終了と再起動
-
-## packages/shared に関して (重要)
-
-`packages/shared` はプロジェクト内で型や共通ユーティリティを管理するためのワークスペースです。いくつか注意点があります:
-
-- なぜ `shared` に js があるように見えるか
-
-  - 開発環境で `npm install` をパッケージ単位で実行すると、そのパッケージ配下に `node_modules` が作成され、JS ファイルや依存が現れます。ワークスペース（ルート）の `npm install` を使えば依存はルートに集約されます。`packages/shared/dist` には JS ではなく型定義（`.d.ts`）のみが生成される想定です。
-
-- 推奨運用
-
-1. 依存はルートで管理: ルートで `npm install` を実行してください。個別パッケージでの `npm install` は避けると依存や冗長な `node_modules` が散らばりません。
-
-2. `packages/shared` の `node_modules` は通常コミットしないでください（.gitignore を参照）。
-
-3. `shared` の型を更新したら、ルートから `npm --workspace=packages/shared run build` を実行して `.d.ts` を生成し、他パッケージのビルドを行って整合性を確認してください。
-
-### shared の更新手順（簡易）
-
-1. `packages/shared/src` に型や関数を追加/編集
-2. ルートで `npm install`（依存を更新した場合）
-3. ルートで `npm --workspace=packages/shared run build` を実行（`dist/` に `.d.ts` が生成されます）
-4. フロント/バックで `npm --workspace=packages/frontend run build` / `npm --workspace=packages/backend run build` を実行して型が解決されることを確認
-
-## 今回の修正サマリ
-
-- ルートに `dev` スクリプトを追加し、`packages/frontend` と `packages/backend` を同時に起動できるようにしました。  
-- `packages/shared` を新規作成し、共通型（国会議事録 API の型など）を移動しました。  
-- `packages/frontend` と `packages/backend` の型参照を `shared` に切り替えました。  
-- UnoCSS に関する Vite 設定と backend の TypeScript の一部型不整合を修正し、Docker Compose 環境で両方のサービスを起動できるようにしました。  
-
-詳細な差分は Git のコミット履歴を参照してください。
